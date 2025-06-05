@@ -41,6 +41,11 @@ func main() {
 	cmds.register("register", handlerRegister)
 	cmds.register("reset", handlReset)
 	cmds.register("users", handleList)
+	cmds.register("agg", handlerAgg)
+	cmds.register("addfeed", handleAddFeed)
+	cmds.register("feeds", handleFeeds)
+	cmds.register("follow", handlerFollow)
+	cmds.register("following", handleFollowing)
 
 	args := os.Args
 
