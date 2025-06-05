@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/yasseresi/Gator/internal/config"
 )
@@ -9,15 +10,31 @@ import (
 func main() {
 
 	conf := config.ReadConfig()
-	fmt.Println(("DbUrl: " + conf.DbUrl))
-	fmt.Println(("UserName before: " + conf.UserName))
 
-	conf.UserName = "Yasser"
-	if err := config.Write(conf); err != nil {
-		fmt.Println("Error in writing file")
+	s := state{
+		config: &conf,
 	}
-	conf = config.ReadConfig()
-	fmt.Println(("DbUrl: " + conf.DbUrl))
-	fmt.Println(("UserName after: " + conf.UserName))
+	cmds := commands{
+		cmds: make(map[string]func(*state, command) error),
+	}
+	cmds.register("login", handlerLogin)
+
+	args := os.Args
+
+	if len(args) < 2 {
+		fmt.Fprintln(os.Stderr, "You have to enter more arguments to execute this command")
+		os.Exit(1)
+	}
+	command_name := args[1]
+	arguments := args[2:]
+
+	cmd := command{
+		name: command_name,
+		args: arguments,
+	}
+	if err := cmds.run(&s, cmd); err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
 
 }
