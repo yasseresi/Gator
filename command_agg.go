@@ -1,22 +1,24 @@
 package main
 
 import (
-	"context"
 	"fmt"
+	"time"
 )
 
 func handlerAgg(s *state, cmd command) error {
-	// Feed URL to fetch
-	feedURL := "https://www.wagslane.dev/index.xml"
-
-	// Fetch the RSS feed
-	feed, err := fetchFeed(context.Background(), feedURL)
-	if err != nil {
-		return fmt.Errorf("failed to fetch feed: %v", err)
+	if len(cmd.args) != 1 {
+		return fmt.Errorf("usage: %s <time_between_reqs>", cmd.name)
 	}
 
-	// Print the entire struct to console
-	fmt.Printf("Feed: %+v\n", *feed)
+	timeBetweenRequests, err := time.ParseDuration(cmd.args[0])
+	if err != nil {
+		return fmt.Errorf("invalid duration '%s': %v", cmd.args[0], err)
+	}
 
-	return nil
+	fmt.Printf("Collecting feeds every %v\n", timeBetweenRequests)
+
+	ticker := time.NewTicker(timeBetweenRequests)
+	for ; ; <-ticker.C {
+		scrapeFeeds(s)
+	}
 }
