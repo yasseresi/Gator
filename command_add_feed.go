@@ -10,19 +10,13 @@ import (
 	"github.com/yasseresi/Gator/internal/database"
 )
 
-func handleAddFeed(s *state, cmd command) error {
+func handleAddFeed(s *state, cmd command, user database.User) error {
 	if len(cmd.args) < 2 {
 		return fmt.Errorf("addfeed command requires two arguments: name and url")
 	}
 
 	name := cmd.args[0]
 	url := cmd.args[1]
-
-	// Get the current user from the database
-	user, err := s.db.GetUser(context.Background(), s.config.UserName)
-	if err != nil {
-		return fmt.Errorf("user '%s' not found: %v", s.config.UserName, err)
-	}
 
 	// Create the feed parameters with correct nullable types
 	new_feed := database.CreateFeddParams{

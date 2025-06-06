@@ -10,18 +10,12 @@ import (
 	"github.com/yasseresi/Gator/internal/database"
 )
 
-func handlerFollow(s *state, cmd command) error {
+func handlerFollow(s *state, cmd command, user database.User) error {
 	if len(cmd.args) == 0 {
 		return fmt.Errorf("follow command requires a URL argument")
 	}
 
 	url := cmd.args[0]
-
-	// Get the current user from the database
-	user, err := s.db.GetUser(context.Background(), s.config.UserName)
-	if err != nil {
-		return fmt.Errorf("user '%s' not found: %v", s.config.UserName, err)
-	}
 
 	// Look up the feed by URL
 	feed, err := s.db.GetFeedByURL(context.Background(), sql.NullString{String: url, Valid: true})
