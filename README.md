@@ -2,6 +2,12 @@
 
 A command-line RSS aggregator built in Go that allows you to manage RSS feeds, follow feeds, and browse posts from your terminal.
 
+## 🎬 Demo
+
+> Terminal demo coming soon. Drop a GIF or screenshot in `docs/screenshots/` and uncomment below.
+
+<!-- <img src="docs/screenshots/demo.gif" width="700"/> -->
+
 ## Prerequisites
 
 Before running Gator, you'll need to have the following installed:
@@ -196,3 +202,9 @@ The application uses PostgreSQL with the following main tables:
 - `feeds` - RSS feed information
 - `feed_follows` - User-feed relationships
 - `posts` - Individual RSS posts
+
+---
+
+## 👤 Author
+
+**Yasser Korzane** — Flutter & Go developer · [GitHub](https://github.com/yasseresi) · [LinkedIn](https://www.linkedin.com/in/korzane-yasser)
